@@ -2,6 +2,7 @@
 // App is the express framework. Body-parser is used to automatically convert requested content from one form to another. 
 // Mongoose is the library which is used to connect the backend server to the mongodb database and Meme is the schema
 var app=require('express')(),
+    subApp=require('express')(),
     bodyParser=require('body-parser'),
     mongoose = require('mongoose'),
     Meme=require('./models/meme.js'),
@@ -119,7 +120,7 @@ app.patch('/memes/:id',function(req,res){
     })
 })
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+subApp.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // The route is used to handle any request to the address of the server which has not been handled by any of the above routing functions. 
 // It return a test stating that the page is not found.
@@ -127,7 +128,9 @@ app.get('*',(req,res)=>{
     res.send("Page not found");
 })
 
-
+subApp.listen(8080,function(){
+    console.log("server for swagger UI active at 8080");
+})
 
 // The function gets executed when we have successfully established the connection with port no 3000.
 app.listen(process.env.PORT||8081,'0.0.0.0',function(){
