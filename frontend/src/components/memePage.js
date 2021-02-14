@@ -28,17 +28,15 @@ class MemePage extends Component
     }
 
     componentDidMount(){
-        setTimeout(()=>{
-            axios.get(baseURL+'/memes')
-            .then((response)=>{
-                this.setState({
-                    memes:response.data
-                });
-            })
-            .catch((error)=>{
-                console.log(error);
-            })
-        },1000);
+        axios.get(baseURL+'/memes')
+        .then((response)=>{
+            this.setState({
+                memes:response.data
+            });
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
     }
 
     handleName(event){
@@ -162,64 +160,78 @@ class MemePage extends Component
             <div className="container">
                 <div className="form-part">
                     {this.state.mode==='add'?(
-                        <div>
-                            <h1>Add a New Meme</h1>
-                            <div>
-                                <input type="text" value={this.state.name} onChange={this.handleName} placeholder="enter your name" />
+                        <div className="memeform fixed-top">
+                            <div className="memeform container">
+
+                                <div className="alert alert-secondary" role="alert">
+                                    <h1 className="alert-heading">Add a New Meme</h1>
+                                </div>
+                                <div className='form-group'>
+                                    <input className="form-control" type="text" value={this.state.name} onChange={this.handleName} placeholder="Enter your Name" />
+                                </div>
+                                <div className='form-group'>
+                                    <input className="form-control" type="text" value={this.state.caption} onChange={this.handleCaption} placeholder="Enter a caption for the meme" />
+                                </div>
+                                <div className='form-group'>
+                                    <input className="form-control" type="text" value={this.state.url} onChange={this.handleUrl} placeholder="Enter the meme URL" />
+                                </div>
+                                <form onSubmit={this.submitHandler}>
+                                    <input className='btn btn-dark mb-3' type="submit" value="Add your meme" />
+                                </form>
+                                <br />
                             </div>
-                            <div>
-                                <input type="text" value={this.state.caption} onChange={this.handleCaption} placeholder="enter a caption for the meme" />
-                            </div>
-                            <div>
-                                <input type="text" value={this.state.url} onChange={this.handleUrl} placeholder="enter the meme URL" />
-                            </div>
-                            <form onSubmit={this.submitHandler}>
-                                <input type="submit" />
-                            </form>
                         </div>
                     ):(
-                        <div>
-                            <h1>Edit the selected Meme</h1>
-                            <div>
-                                <input type="text" value={this.state.name} disabled onChange={this.handleName} placeholder="enter your name" />
+                        <div className="memeform fixed-top">
+                            <div className="memeform container">
+
+                                <div className="alert alert-secondary" role="alert">
+                                    <h1 className="alert-heading">Edit the selected Meme</h1>
+                                </div>
+                                <div className='form-group'>
+                                    <input className="form-control" type="text" disabled value={this.state.name} onChange={this.handleName} placeholder="Enter your Name" />
+                                </div>
+                                <div className='form-group'>
+                                    <input className="form-control" type="text" value={this.state.caption} onChange={this.handleCaption} placeholder="Enter a caption for the meme" />
+                                </div>
+                                <div className='form-group'>
+                                    <input className="form-control" type="text" value={this.state.url} onChange={this.handleUrl} placeholder="Enter the meme URL" />
+                                </div>
+                                <form onSubmit={this.editHandler}>
+                                    <input type="submit" className='btn btn-success mb-3' value="Save Changes"/>
+                                </form>
+                                <form onSubmit={this.cancelEdit}>
+                                    <input type="submit" className='btn btn-warning mb-3' value="Cancel Edit" />
+                                </form>
+                                <br />
                             </div>
-                            <div>
-                                <input type="text" value={this.state.caption} onChange={this.handleCaption} placeholder="enter a caption for the meme" />
-                            </div>
-                            <div>
-                                <input type="text" value={this.state.url} onChange={this.handleUrl} placeholder="enter the meme URL" />
-                            </div>
-                            <form onSubmit={this.editHandler}>
-                                <input type="submit" value="Save Changes"/>
-                            </form>
-                            <form onSubmit={this.cancelEdit}>
-                                <input type="submit" value="Cancel Edit" />
-                            </form>
                         </div>
                     )}
                 </div>
+                <br />
                 <div className="meme-part">
-                    {
-                        this.state.memes.map((meme,index)=>{
-                            return (
-                                <div key={meme.id}>
-                                    <div className="meme">
-                                        <h1>{meme.name}</h1>
-                                        <p>{meme.caption}</p>
-                                        <img src={meme.url} alt={"meme"+index} />
+                        {
+                            this.state.memes.map((meme,index)=>{
+                                return (
+                                    <div key={meme.id}>
+                                        <div className="meme">
+                                            <h1>{meme.name}</h1>
+                                            <p>{meme.caption}</p>
+                                            <img src={meme.url} alt={"meme"+index} />
+                                        </div>
+                                        <br/>
+                                        <form onSubmit={this.makeEdit(meme,index)}>
+                                            <input type="submit" className='btn btn-primary mb-3' value="Edit Meme"/>
+                                        </form>
+                                        <br/>
                                     </div>
-                                    <form onSubmit={this.makeEdit(meme,index)}>
-                                        <input type="submit" value="Edit"/>
-                                    </form>
-                                </div>
-                            )
-                        })
-                    }
+                                )
+                            })
+                        }
                 </div>
             </div>
         );
     }
 };
-
 
 export default MemePage;

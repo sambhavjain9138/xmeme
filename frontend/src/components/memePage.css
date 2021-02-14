@@ -12,10 +12,23 @@
 }
 
 .meme-part {
+    margin: 0 auto 0 auto;
+    padding-top: 35%; 
     height:60%;
+    opacity: 1;
     overflow: hidden;
+}
+
+img{
+    max-width: 70%;
+    max-height: 25%;
 }
 
 .meme{
     border-top: 0.5px solid grey;
+}
+
+
+.memeform .container {
+    background-color: #4f4f4f;
 }
