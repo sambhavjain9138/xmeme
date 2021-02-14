@@ -12,13 +12,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors());
 
+var URL;
+if(process.env.NODE_ENV=='development'){
+    URL='mongodb://127.0.0.1:27017/Xmeme';
+}else{
+    URL= "mongodb+srv://admin:B0h3uTOkOZfBFn29@cluster0.o2tok.mongodb.net/sambhav-xmeme?retryWrites=true&w=majority";
+}
+
 // The next two lines are used to connect to the database. 
-mongoose.connect('mongodb://127.0.0.1:27017/Xmeme',{useNewUrlParser: true,  useUnifiedTopology: true, useCreateIndex: true});
+mongoose.connect(URL,{useNewUrlParser: true,  useUnifiedTopology: true, useCreateIndex: true});
 const connection=mongoose.connection;
 
-// The function gets executed when the connection of the backend gets established to the database
+// // The function gets executed when the connection of the backend gets established to the database
 connection. once('open',function(){
-  console.log("Mongoose database connected for Xmeme");
+  console.log("Mongoose database connected for Xmeme at "+URL);
 });
 
 // This is the function handling the Get request. The function handled the get request to the url /memes. 
@@ -116,6 +123,6 @@ app.get('*',(req,res)=>{
 })
 
 // The function gets executed when we have successfully established the connection with port no 3000.
-app.listen(4000,function(){
-    console.log("server started");
+app.listen(process.env.PORT||8081,'0.0.0.0',function(){
+    console.log("server started with environment type "+process.env.NODE_ENV);
 })
