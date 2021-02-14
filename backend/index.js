@@ -7,6 +7,9 @@ var app=require('express')(),
     Meme=require('./models/meme.js'),
     cors = require('cors');
 
+const swaggerUi = require('swagger-ui-express'),
+    swaggerDocument = require('./swagger.json');
+
 // The next two lined is used to convert the input request body we get in the request from one form to another. 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -27,6 +30,7 @@ const connection=mongoose.connection;
 connection. once('open',function(){
   console.log("Mongoose database connected for Xmeme at "+URL);
 });
+
 
 // This is the function handling the Get request. The function handled the get request to the url /memes. 
 // The function returns the list of all the memes available in the database where each meme contains the details like id, name, url and caption. 
@@ -115,12 +119,15 @@ app.patch('/memes/:id',function(req,res){
     })
 })
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // The route is used to handle any request to the address of the server which has not been handled by any of the above routing functions. 
 // It return a test stating that the page is not found.
 app.get('*',(req,res)=>{
     res.send("Page not found");
 })
+
+
 
 // The function gets executed when we have successfully established the connection with port no 3000.
 app.listen(process.env.PORT||8081,'0.0.0.0',function(){

@@ -1,0 +1,176 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "My Xmeme Project CRUD",
+      "description": "My Xmeme Project Application API",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "localhost:8081",
+    "basePath": "/",
+    "tags": [
+      {
+        "name": "Memes",
+        "description": "API for Memes in the system"
+      }
+    ],
+    "schemes": [
+      "https"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/memes": {
+        "post": {
+          "tags": [
+            "Meme"
+          ],
+          "description": "Add a new meme to the system",
+          "parameters": [
+            {
+              "name": "meme",
+              "in": "body",
+              "description": "new meme data",
+              "schema": {
+                "$ref": "#/definitions/Meme"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "ID of the new meme is returned",
+              "schema": {
+                "$ref": "#/definitions/ID"
+              }
+            }
+          }
+        },
+        "get": {
+            "tags": [
+              "Memes"
+            ],
+            "summary": "Get all memes in system",
+            "responses": {
+              "200": {
+                "description": "List of all memes present in the system",
+                "schema": {
+                  "$ref": "#/definitions/Memes"
+                }
+              }
+            }
+          }
+      },
+      "/memes/:id": {
+        "parameters":
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of the meme to be worked upon",
+              "schema": {
+                "$ref": "#/definitions/ID"
+              }
+        },
+        "patch": {
+          "tags": [
+            "Meme"
+          ],
+          "description": "Edit an existing meme details to the system",
+          "parameters": [
+            {
+              "name": "meme",
+              "in": "body",
+              "description": "meme details to be updated",
+              "schema": {
+                "$ref": "#/definitions/updateMeme"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        },
+        "get": {
+            "tags": [
+              "Memes"
+            ],
+            "summary": "gives details of the requested meme",
+            "responses": {
+              "200": {
+                "description": "",
+                "schema": {
+                  "$ref": "#/definitions/Meme"
+                }
+              }
+            }
+          }
+      }
+      
+    },
+    "definitions": {
+      "Meme": {
+        "required": [
+          "name",
+          "id",
+          "caption",
+          "url"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "updateMeme":{
+        "required": [
+          "id",
+          "caption",
+          "url"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "caption": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "Memes": {
+        "type": "array",
+        "$ref": "#/definitions/Meme"
+      },
+      "ID":{
+        "type":"string"
+      }
+     
+    }
+  }
