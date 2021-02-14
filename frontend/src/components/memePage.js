@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import axios from 'axios';
 import './memePage.css';
 
-var baseURL='https://sambhav-xmeme.herokuapp.com';
+var baseURL='http://localhost:8081';
 
 class MemePage extends Component
 {
