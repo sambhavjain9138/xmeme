@@ -20,6 +20,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors());
 
+
+// Depending upon the NODE_ENV, we choose the URL to connect to. In case of Development environment, code gets connected to local database while in case of production, it gets connected to cloud database
 var URL;
 if(process.env.NODE_ENV=='development'){
     URL='mongodb://127.0.0.1:27017/Xmeme';
@@ -36,6 +38,16 @@ connection. once('open',function(){
   console.log("Mongoose database connected for Xmeme at "+URL);
 });
 
+//function to check if we have a valid URL or not
+function validURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
+  }
 
 // This is the function handling the Get request. The function handled the get request to the url /memes. 
 // The function returns the list of all the memes available in the database where each meme contains the details like id, name, url and caption. 
@@ -107,6 +119,9 @@ app.patch('/memes/:id',function(req,res){
         if(err){
             res.status(404).send('No such meme exists in the database');
         }else{
+            if(req.body.name&&(req.body.name!=meme.name)){
+                return res.status(406).send("Name cannot be edited");
+            }
             if(req.body.caption){
                 meme.caption=req.body.caption;
             }
@@ -132,10 +147,12 @@ app.get('*',(req,res)=>{
     res.send("Page not found");
 })
 
+// The function handles the port for swagger-ui.
 subApp.listen(8080,function(){
     console.log("server for swagger UI active at 8080");
 })
 
+// The two function calls below are responsible for handling HTTPS and HTTP request respectively
 const httpsServer = https.createServer({
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem'),
@@ -143,7 +160,7 @@ const httpsServer = https.createServer({
 
 const httpServer = http.createServer(app);
 
-// The function gets executed when we have successfully established the connection with port no 8081.
+// The functions gets executed to establish the connection with port no 8081 and 8083 respectively to handle HTTP and HTTPs requests.
 httpServer.listen(process.env.PORT||8081,function(){
     console.log("HTTP server started with environment type "+process.env.NODE_ENV+" at port no "+(process.env.PORT||8081));
 })
