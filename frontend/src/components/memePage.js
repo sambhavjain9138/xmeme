@@ -4,6 +4,16 @@ import './memePage.css';
 
 var baseURL='http://localhost:8081';
 
+function validURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
+  }
+
 class MemePage extends Component
 {
     constructor(props)
@@ -73,6 +83,9 @@ class MemePage extends Component
 
     editHandler(event){
         event.preventDefault();
+        if(!validURL(this.state.url)){
+            return;
+        }
         if((this.state.url!=this.state.meme.url)||(this.state.caption!=this.state.meme.caption)){
             const config = {
                 headers: {
@@ -121,6 +134,9 @@ class MemePage extends Component
 
     submitHandler(event){
         event.preventDefault();
+        if(!validURL(this.state.url)){
+            return;
+        }
         const config = {
             headers: {
                 'content-type': 'application/json'

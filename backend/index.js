@@ -91,6 +91,9 @@ app.get('/memes/:id',function(req,res){
 // The function can be used to add a new meme to the database. 
 app.post('/memes',function(req,res){
     var {name,url,caption}=req.body;
+    if(!validURL(url)){
+        return res.status(400).send('invalid URL');
+    }
     Meme.findOne({name, url, caption },function(err1,res1){
         if(err1){
             res.status(500).send('Error saving meme to the database');
