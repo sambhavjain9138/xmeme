@@ -47,7 +47,7 @@ class MemePage extends Component
         .catch((error)=>{
             console.log(error);
         })
-    }
+}
 
     handleName(event){
         this.setState({
@@ -83,9 +83,9 @@ class MemePage extends Component
 
     editHandler(event){
         event.preventDefault();
-        if(!validURL(this.state.url)){
-            return;
-        }
+        // if(!validURL(this.state.url)){
+        //     return;
+        // }
         if((this.state.url!=this.state.meme.url)||(this.state.caption!=this.state.meme.caption)){
             const config = {
                 headers: {
@@ -99,7 +99,8 @@ class MemePage extends Component
             if(this.state.caption!=this.state.meme.caption){
                 data['caption']=this.state.caption;
             }
-            axios.patch( baseURL+'/memes/'+this.state.meme.id, data,config)
+            var memeId=this.state.meme.id;
+            axios.patch( baseURL+'/memes/'+memeId, data,config)
                 .then(id => {
                     let memes=this.state.memes;
                     memes[this.state.index]['caption']=this.state.caption;
@@ -134,9 +135,9 @@ class MemePage extends Component
 
     submitHandler(event){
         event.preventDefault();
-        if(!validURL(this.state.url)){
-            return;
-        }
+        // if(!validURL(this.state.url)){
+        //     return;
+        // }
         const config = {
             headers: {
                 'content-type': 'application/json'
