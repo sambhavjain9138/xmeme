@@ -1,1 +1,1 @@
-sleep 300s
+sleep 30s

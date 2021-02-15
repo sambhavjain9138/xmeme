@@ -6,7 +6,11 @@ var app=require('express')(),
     bodyParser=require('body-parser'),
     mongoose = require('mongoose'),
     Meme=require('./models/meme.js'),
-    cors = require('cors');
+    cors = require('cors'),
+    https=require('https'),
+    http=require('http');
+
+const fs = require('fs');
 
 const swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
@@ -132,7 +136,18 @@ subApp.listen(8080,function(){
     console.log("server for swagger UI active at 8080");
 })
 
-// The function gets executed when we have successfully established the connection with port no 3000.
-app.listen(process.env.PORT||8081,'0.0.0.0',function(){
-    console.log("server started with environment type "+process.env.NODE_ENV);
+const httpsServer = https.createServer({
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem'),
+  }, app);
+
+const httpServer = http.createServer(app);
+
+// The function gets executed when we have successfully established the connection with port no 8081.
+httpServer.listen(process.env.PORT||8081,function(){
+    console.log("HTTP server started with environment type "+process.env.NODE_ENV+" at port no "+(process.env.PORT||8081));
+})
+
+httpsServer.listen(process.env.PORT||8083,function(){
+    console.log("HTTPS server started with environment type "+process.env.NODE_ENV+" at port no "+(process.env.PORT||8083));
 })
