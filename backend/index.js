@@ -148,6 +148,6 @@ httpServer.listen(process.env.PORT||8081,function(){
     console.log("HTTP server started with environment type "+process.env.NODE_ENV+" at port no "+(process.env.PORT||8081));
 })
 
-httpsServer.listen(process.env.PORT||8083,function(){
-    console.log("HTTPS server started with environment type "+process.env.NODE_ENV+" at port no "+(process.env.PORT||8083));
+httpsServer.listen(8083,function(){
+    console.log("HTTPS server started with environment type "+process.env.NODE_ENV+" at port no "+(8083));
 })

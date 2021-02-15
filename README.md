@@ -1,8 +1,11 @@
 #Sambhav Xmeme
-The app is a full-stack website based on MERN Tech stack. To deploy this code, you require npm installed at your local and mongoDB if you want to save your data in a local database.
+
+The app is a full-stack website based on MERN Tech stack. To deploy this code, you require npm installed at your local and mongoDB if you want to save your data in a local database. The backend server starts 3 ports- 8080 (for swagger-ui), 8081(for http server) and for 8083 (for https server). 
 
 ##Installation Steps
+
 ###Backend
+
 The Backend is built using NodeJS with express framework. For the database, the code gets connected to MongoDB database. For Deployment Environment, the code gets connected to a local database while for Production Environment, the code gets connected to MongoDB-Atlas which is a cloud database. Let us first start with installation steps:
 
 1) **Install Node Modules**- The node modules are libraries which are installed to provide extended functionalities to our code. To install these modules run,
@@ -33,7 +36,15 @@ export NODE_ENV=<environment>
 npm start
 ```
 
-You can now access your backend server at localhost:8081
+You can now access your backend server at http://localhost:8081 (HTTP), https://localhost:8083 (HTTPS) and https://localhost:8080/swagger-ui (swagger documentation)
+
+for HTTPS, you can create your own certificates by the following commands
+```
+openssl genrsa -out key.pem
+openssl req -new -key key.pem -out csr.pem
+openssl x509 -req -days 9999 -in csr.pem -signkey key.pem -out cert.pem
+rm csr.pem
+```
 
 ###Frontend
 The frontend is build on react, which is a javascript library. To start with the server, first move to the frontend folder.
