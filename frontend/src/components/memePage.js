@@ -148,13 +148,13 @@ class MemePage extends Component
                     'url':this.state.url
                     }
         axios.post( baseURL+'/memes', data,config)
-            .then(id => {
+            .then(response => {
                 let memes=this.state.memes;
                 if(memes.length>=100){
                     memes.pop();
                 }
                 memes.unshift({
-                    "id": id,
+                    "id": response.data.id,
                     "name": this.state.name,
                     "caption": this.state.caption,
                     "url":this.state.url
