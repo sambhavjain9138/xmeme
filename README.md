@@ -63,5 +63,19 @@ npm start
 ```
 You can now access your web app at localhost:3000
 
+## Alternative Installation method
+Alternative way to get ready with the working repository and start the servers are
+1) change permissions of test_server.sh file using
+```
+chmod +x test_server.sh
+```
+
+2) Run the test_server file. This runs all the script commands mentioned in the file
+```
+sudo ./test_server.sh
+```
+
+3) The script completes all the installation part and also start the servers for local testing.
+
 ## Demo App
 This application is already deployed at [Backend](https://sambhav-xmeme.herokuapp.com/) and [Frontend](https://sambhav-xmeme.netlify.app/)
