@@ -1,10 +1,10 @@
-#Sambhav Xmeme
+# Sambhav Xmeme
 
 The app is a full-stack website based on MERN Tech stack. To deploy this code, you require npm installed at your local and mongoDB if you want to save your data in a local database. The backend server starts 3 ports- 8080 (for swagger-ui), 8081(for http server) and for 8083 (for https server). 
 
-##Installation Steps
+## Installation Steps
 
-###Backend
+### Backend
 
 The Backend is built using NodeJS with express framework. For the database, the code gets connected to MongoDB database. For Deployment Environment, the code gets connected to a local database while for Production Environment, the code gets connected to MongoDB-Atlas which is a cloud database. Let us first start with installation steps:
 
@@ -46,7 +46,7 @@ openssl x509 -req -days 9999 -in csr.pem -signkey key.pem -out cert.pem
 rm csr.pem
 ```
 
-###Frontend
+### Frontend
 The frontend is build on react, which is a javascript library. To start with the server, first move to the frontend folder.
 
 1) **Install Node Modules**- The node modules are libraries which are installed to provide extended functionalities to our code. To install these modules run,
@@ -63,5 +63,5 @@ npm start
 ```
 You can now access your web app at localhost:3000
 
-##Demo App
+## Demo App
 This application is already deployed at [Backend](https://sambhav-xmeme.herokuapp.com/) and [Frontend](https://sambhav-xmeme.netlify.app/)
